@@ -7,10 +7,18 @@ export const authActions = {
             type: types.AUTHENTICATE,
         };
     },
-    signupAsync:(userDaa)=>{
+
+    //Async
+    signupAsync:(userData)=>{
         return {
             type: types.SIGNUP_ASYNC,
-            payload: userDaa
+            payload: userData
+        };
+    },
+    loginAsync:(userData)=>{
+        return {
+            type: types.LOGIN_ASYNC,
+            payload: userData
         };
     },
 };
