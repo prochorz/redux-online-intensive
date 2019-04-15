@@ -1,23 +1,26 @@
 //Core
-import { Map } from 'immutable';
+import {Map} from 'immutable';
 
 //Types
-import { types } from './types';
+import {types} from './types';
 
 const initialState = Map({
-    id: '',
-    firstName: '',
-    lastName: '',
-    avatar: '',
-    token: ''
+  id: '',
+  firstName: '',
+  lastName: '',
+  avatar: '',
+  token: ''
 });
 
 export const profileReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case types.FILL_PROFILE:
-            return state.merge(action.payload);
+  switch (action.type) {
+    case types.FILL_PROFILE:
+      return state.merge(action.payload);
 
-        default:
-            return state;
-    }
+    case types.CLEAR_PROFILE:
+      return state.clear();
+
+    default:
+      return state;
+  }
 }

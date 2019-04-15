@@ -1,41 +1,49 @@
 // Core
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { hot } from 'react-hot-loader';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {hot} from 'react-hot-loader';
+import {withRouter} from 'react-router-dom';
 
-// Pages
-import { Login, Signup, Feed, Profile, NewPassword } from '../pages';
+//Roots
+import Private from './Private';
+import Public from './Public';
 
-//Instruments
-import { book } from './book';
+//Components
+import {Loading} from '../components';
+
+//Actions
+import {authActions} from '../bus/auth/actions';
+import Login from "../pages/Login";
 
 const mapStateToProps = (state) => {
-    return {
-        isAuthenticated: state.auth.get('isAuthenticated'),
-    }
+  return {
+    isAuthenticated: state.auth.get('isAuthenticated'),
+    isInitialized: state.auth.get('isInitialized'),
+  }
+}
+
+const mapDispatchToProps = {
+  initializeAsync: authActions.initializeAsync,
 }
 
 @hot(module)
 @withRouter
-@connect(mapStateToProps)
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 export default class App extends Component {
-    render () {
-        const { isAuthenticated } = this.props;
+  componentDidMount() {
+    this.props.initializeAsync()
+  }
 
-        return isAuthenticated ? (
-            <Switch>
-                <Route component={Feed} path={book.feed} />
-                <Route component={Profile} path={book.profile} />
-                <Route component={NewPassword} path={book.newPassword} />
-                <Redirect to={book.feed}/>
-            </Switch>
-        ) : (
-            <Switch>
-                <Route component={Login} path={book.login} />
-                <Route component={Signup} path={book.signUp} />
-                <Redirect to={book.login}/>
-            </Switch>
-        );
+  render() {
+    const {isAuthenticated, isInitialized} = this.props;
+
+    if (!isInitialized) {
+      return <Loading/>;
     }
+
+    return isAuthenticated ? (<Private/>) : (<Public/>);
+  }
 }
