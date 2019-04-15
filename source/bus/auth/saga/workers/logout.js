@@ -26,7 +26,7 @@ export function* logout() {
     yield apply( localStorage, localStorage.removeItem, ['token'] );
     yield apply( localStorage, localStorage.removeItem, ['remember'] );
 
-    yield put(postsActions.clearPost());
+    yield put(postsActions.clearPosts());
     yield put(profileActions.clearProfile());
     yield put(uiActions.stopFetching());
     yield put(authActions.logout());

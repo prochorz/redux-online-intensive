@@ -10,19 +10,25 @@ export const postsActions = {
       payload: posts
     }
   },
-  createPost: (posts) => {
+  createPost: (post) => {
     return {
       type: types.CREATE_POST,
-      payload: posts
+      payload: post
     }
   },
-  clearPost: () => {
+  removePost: (id) => {
+    return {
+      type: types.REMOVE_POST,
+      payload: id
+    }
+  },
+  clearPosts: () => {
     return {
       type: types.CLEAR_POSTS,
     }
   },
 
-  fetchPostsAsync: (dispatch) => {
+  fetchPostsAsync: () => {
     return {
       type: types.FETCH_POSTS_ASYNC,
     };
@@ -33,9 +39,10 @@ export const postsActions = {
       payload: comment
     };
   },
-  clearPostAsync: (comment) => {
+  removePostAsync: (id) => {
     return {
-      type: types.CLEAR_POSTS_ASYNC,
+      type: types.REMOVE_POST_ASYNC,
+      payload: id
     };
   },
 };
