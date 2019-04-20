@@ -13,37 +13,51 @@ import {Loading} from '../components';
 
 //Actions
 import {authActions} from '../bus/auth/actions';
-import Login from "../pages/Login";
+import {socketActions} from '../bus/socket/actions';
+
+//WebSocket
+import { socket, joinSocketChannel} from '../init/socket';
 
 const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: state.auth.get('isAuthenticated'),
-    isInitialized: state.auth.get('isInitialized'),
-  }
+	return {
+		isAuthenticated: state.auth.get('isAuthenticated'),
+		isInitialized: state.auth.get('isInitialized'),
+	}
 }
 
 const mapDispatchToProps = {
-  initializeAsync: authActions.initializeAsync,
+	initializeAsync: authActions.initializeAsync,
+	...socketActions
 }
 
 @hot(module)
 @withRouter
 @connect(
-  mapStateToProps,
-  mapDispatchToProps
+	mapStateToProps,
+	mapDispatchToProps
 )
 export default class App extends Component {
-  componentDidMount() {
-    this.props.initializeAsync()
-  }
+	componentDidMount() {
+		const { initializeAsync, listenConnection } = this.props;
 
-  render() {
-    const {isAuthenticated, isInitialized} = this.props;
 
-    if (!isInitialized) {
-      return <Loading/>;
-    }
+		initializeAsync();
+		listenConnection();
+		joinSocketChannel();
+	}
 
-    return isAuthenticated ? (<Private/>) : (<Public/>);
-  }
+	componentWillUnmount () {
+		socket.removeLitener('connect');
+		socket.removeLitener('disconnect');
+	}
+
+	render() {
+		const {isAuthenticated, isInitialized, listenPosts } = this.props;
+
+		if (!isInitialized) {
+			return <Loading/>;
+		}
+
+		return isAuthenticated ? (<Private listenPosts = { listenPosts } />) : (<Public/>);
+	}
 }
