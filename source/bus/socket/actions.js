@@ -20,6 +20,12 @@ export const socketActions = {
 			dispatch(postsActions.createPost(post));
 		});
 
+		socket.on('remove', (event) => {
+			const { data: post } = JSON.parse(event);
+
+			dispatch(postsActions.removePost(post));
+		});
+
 		socket.on('like', (event) => {
 			const {data, meta} = JSON.parse(event);
 
@@ -36,7 +42,7 @@ export const socketActions = {
 				dispatch(postsActions.unlikePost(data ));
 			}
 
-			dispatch(postsActions.createPost(post));
+			//dispatch(postsActions.createPost(data));
 		});
 	}
 };
