@@ -22,7 +22,7 @@ const mapDispatchToProps = profileActions;
 @connect(
   mapStateToProps,
   mapDispatchToProps
-);
+)
 export default class NewPassword extends Component {
     static defaultProps = {
         // State
