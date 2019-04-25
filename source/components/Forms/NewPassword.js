@@ -1,5 +1,6 @@
 // Core
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import cx from 'classnames';
@@ -8,7 +9,20 @@ import cx from 'classnames';
 import Styles from './styles.m.css';
 import { newPassword } from '../../bus/forms/shapes';
 import { book } from '../../navigation/book';
+import { profileActions } from "../../bus/profile/actions";
 
+const mapStateToProps = (state) => {
+  return {
+    isFetching: state.ui.get("isFetching"),
+  }
+};
+
+const mapDispatchToProps = profileActions;
+
+@connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
 export default class NewPassword extends Component {
     static defaultProps = {
         // State
