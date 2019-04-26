@@ -15,6 +15,20 @@ const userProfile = {
     token,
 };
 
+const users = [
+  {
+    id: '1',
+    firstName: 'eferv',
+    lastName: 'eferv',
+    avatar: 'eferv.jpg',
+  },{
+    id: '2',
+    firstName: 'eferv2',
+    lastName: 'eferv2',
+    avatar: 'eferv2.jpg',
+  }
+];
+
 const credentials = {
     email:    'test@email.com',
     password: '1111',
@@ -59,6 +73,7 @@ global.__ = {
     fetchResponseFail400,
     credentials,
     url,
+    users
 };
 global.fetch = fetch;
 global.localStorage = new LocalStorage();
