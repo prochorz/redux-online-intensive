@@ -10,7 +10,7 @@ export const socketActions = {
 		});
 
 		socket.on('disconnect', () => {
-			dispatch(uiActions.setOffnlineState());
+			dispatch(uiActions.setOfflineState());
 		});
 	},
 	listenPosts: () => (dispatch, getState) => {
