@@ -23,7 +23,7 @@ export function* logout() {
     }
 
   } catch (error) {
-    yield put(uiActions.emitError(error, 'logout worker '))
+    yield put(uiActions.emitError(error, 'logout worker'))
   } finally {
     yield apply( localStorage, localStorage.removeItem, ['token'] );
     yield apply( localStorage, localStorage.removeItem, ['remember'] );
